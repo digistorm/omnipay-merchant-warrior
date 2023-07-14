@@ -1,0 +1,27 @@
+HTTP/1.1 200 OK
+Server: Apache
+Date: Sun, 11 May 2014 21:17:31 GMT
+Content-Type: application/json; charset=utf-8
+Status: 200 OK
+
+<?xml version="1.0"?>
+<mwResponse>
+  <custom1/>
+  <cardExpiryYear>21</cardExpiryYear>
+  <custom2/>
+  <custom3/>
+  <responseMessage>Transaction approved</responseMessage>
+  <transactionReferenceID>12345</transactionReferenceID>
+  <cardType>mc</cardType>
+  <responseCode>0</responseCode>
+  <authCode>731357421</authCode>
+  <transactionAmount>1.00</transactionAmount>
+  <authResponseCode>08</authResponseCode>
+  <transactionID>1336-20be3569-b600-11e6-b9c3-005056b209e0</transactionID>
+  <receiptNo>731357421</receiptNo>
+  <cardExpiryMonth>05</cardExpiryMonth>
+  <customHash>65b172551b7d3a0706c0ce5330c98470</customHash>
+  <authSettledDate>2016-11-29</authSettledDate>
+  <paymentCardNumber>512345XXXXXX2346</paymentCardNumber>
+  <authMessage>Honour with identification</authMessage>
+</mwResponse>

@@ -4,6 +4,7 @@ namespace Omnipay\MerchantWarrior\Message;
 
 /**
  * @link https://dox.merchantwarrior.com/direct-api#processcard
+ * @method PurchaseResponse sendData($data)
  */
 class PurchaseRequest extends AbstractRequest
 {

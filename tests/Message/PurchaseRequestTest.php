@@ -42,4 +42,42 @@ class PurchaseRequestTest extends TestCase
 
         $this->assertSame($card->getExpiryDate('my'), $data['paymentCardExpiry']);
     }
+
+    public function testSendData()
+    {
+        $data = [
+            'method' => 'processCard',
+            'merchantUUID' => null,
+            'apiKey' => null,
+            'transactionAmount' => '10.00',
+            'transactionCurrency' => 'USD',
+            'transactionProduct' => 'abc123',
+            'storeID' => null,
+            'custom1' => null,
+            'custom2' => null,
+            'custom3' => null,
+            'hash' => '0f9d4640d2b5f9627b7dbc1f20daab20',
+            'customerName' => 'Example User',
+            'customerCountry' => 'US',
+            'customerState' => 'CA',
+            'customerCity' => 'Billstown',
+            'customerAddress' => '123 Billing St',
+            'customerPostCode' => '12345',
+            'customerEmail' => null,
+            'customerPhone' => '(555) 123-4567',
+            'paymentCardNumber' => '4111111111111111',
+            'paymentCardExpiry' => '0128',
+            'paymentCardName' => 'Example User',
+            'paymentCardCSC' => 742,
+        ];
+
+        $this->setMockHttpResponse('ProcessCardSuccess.txt');
+
+        $response = $this->request->sendData($data);
+
+        $this->assertTrue($response->isSuccessful());
+        $this->assertSame('1336-20be3569-b600-11e6-b9c3-005056b209e0', $response->getTransactionID());
+        $this->assertSame('731357421', $response->getReceiptNo());
+        $this->assertSame('Honour with identification', $response->getAuthMessage());
+    }
 }

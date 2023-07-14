@@ -150,9 +150,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             'Content-Type' => 'application/x-www-form-urlencoded',
         ];
         // TODO check if data is in the correct format here.
-        $httpResponse = $this->httpClient->send($this->getHttpMethod(), $this->getEndpoint(), $headers, $data);
-
-        $response = $this->httpClient->post($this->getEndpoint());
+        $response = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, http_build_query($data));
         $content = (string) $response->getBody();
         $xml = simplexml_load_string($content);
         $this->response = $this->createResponse($xml);

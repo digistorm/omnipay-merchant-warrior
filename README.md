@@ -1,6 +1,6 @@
 # Omnipay: merchant-warrior
 
-**Skeleton gateway for the Omnipay PHP payment processing library**
+**MerchantWarrior gateway for the Omnipay PHP payment processing library**
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/digistorm/omnipay-merchant-warrior.svg?style=flat-square)](https://packagist.org/packages/digistorm/omnipay-merchant-warrior)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)

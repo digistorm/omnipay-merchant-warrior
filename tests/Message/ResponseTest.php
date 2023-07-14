@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\Skeleton\Message;
+namespace League\MerchantWarrior\Test\Message;
 
 use Omnipay\Tests\TestCase;
 

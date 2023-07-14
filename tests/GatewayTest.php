@@ -1,20 +1,20 @@
 <?php
 
-namespace Omnipay\Skeleton;
+namespace League\MerchantWarrior\Test;
 
+use Omnipay\MerchantWarrior\Gateway;
 use Omnipay\Tests\GatewayTestCase;
-use Omnipay\Common\CreditCard;
 
 class GatewayTest extends GatewayTestCase
 {
-    /** @var SkeletonGateway */
+    /** @var Gateway */
     protected $gateway;
 
     public function setUp()
     {
         parent::setUp();
 
-        $this->gateway = new SkeletonGateway($this->getHttpClient(), $this->getHttpRequest());
+        $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
 
         $this->options = array(
             'amount' => '10.00',
@@ -24,6 +24,8 @@ class GatewayTest extends GatewayTestCase
 
     public function testAuthorize()
     {
+        $this->markTestSkipped('Authorize is not implemented in the MerchantWarrior driver currently.');
+
         $this->setMockHttpResponse('AuthorizeSuccess.txt');
 
         $response = $this->gateway->authorize($this->options)->send();

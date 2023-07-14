@@ -1,6 +1,6 @@
 <?php
 
-namespace Omnipay\Skeleton\Message;
+namespace Omnipay\MerchantWarrior\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
@@ -16,16 +16,38 @@ class Response extends AbstractResponse
         $this->data = $data;
     }
 
+    public function getTransactionId()
+    {
+        return (string) $this->data['transactionID'];
+    }
+
+    public function getReceiptNo()
+    {
+        return (string) $this->data['receiptNo'];
+    }
+
+    public function getCode()
+    {
+        return (string) $this->data['authResponseCode'];
+    }
+
+    public function getAuthCode()
+    {
+        return (string) $this->data['authCode'];
+    }
+
+    public function getAuthSettledDate()
+    {
+        return (string) $this->data['authSettledDate'];
+    }
+
+    public function getMessage()
+    {
+        return (string) $this->data['responseMessage'];
+    }
+
     public function isSuccessful()
     {
-        return isset($this->data['success']);
+        return (int) $this->data['responseCode'] === 0;
     }
-
-    public function getTransactionReference()
-    {
-        if (isset($this->data['reference'])) {
-            return $this->data['reference'];
-        }
-    }
-
 }

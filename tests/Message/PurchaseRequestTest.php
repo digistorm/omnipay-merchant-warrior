@@ -76,8 +76,7 @@ class PurchaseRequestTest extends TestCase
         $response = $this->request->sendData($data);
 
         $this->assertTrue($response->isSuccessful());
-        $this->assertSame('1336-20be3569-b600-11e6-b9c3-005056b209e0', $response->getTransactionID());
-        $this->assertSame('731357421', $response->getReceiptNo());
-        $this->assertSame('Honour with identification', $response->getAuthMessage());
+        $this->assertSame('1336-20be3569-b600-11e6-b9c3-005056b209e0', $response->getTransactionId());
+        $this->assertSame('Transaction approved', $response->getMessage());
     }
 }

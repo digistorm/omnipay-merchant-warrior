@@ -19,25 +19,22 @@ class Response extends AbstractResponse
     /**
      * @return string
      */
-    public function getTransactionID()
+    public function getTransactionId()
     {
         return (string) $this->data->transactionID;
     }
 
-    /**
-     * @return string
-     */
-    public function getReceiptNo()
+    public function getTransactionReference()
     {
-        return (string) $this->data->receiptNo;
+        return (string) $this->data->transactionReferenceID;
     }
 
     /**
      * @return string
      */
-    public function getAuthMessage()
+    public function getMessage()
     {
-        return (string) $this->data->authMessage;
+        return (string) $this->data->responseMessage;
     }
 
     /**
@@ -46,5 +43,18 @@ class Response extends AbstractResponse
     public function isSuccessful()
     {
         return (int) $this->data->responseCode === 0;
+    }
+
+    public function getCode()
+    {
+        return (int) $this->data->responseCode;
+    }
+
+    /**
+     * @return array
+     */
+    public function getData()
+    {
+        return json_decode(json_encode($this->data), true);
     }
 }

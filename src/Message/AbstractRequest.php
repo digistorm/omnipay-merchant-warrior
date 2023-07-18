@@ -148,8 +148,8 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         $headers = [
             'Content-Type' => 'application/x-www-form-urlencoded',
+            'Accept' => 'text/xml',
         ];
-        // TODO check if data is in the correct format here.
         $response = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, http_build_query($data));
         $content = (string) $response->getBody();
         $xml = simplexml_load_string($content);
@@ -165,7 +165,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
 
         return [
             'customerName' => $card->getName(),
-            'customerCountry' => $card->getCountry(),
+            'customerCountry' => $card->getCountry() ?? 'AU',
             'customerState' => $card->getState(),
             'customerCity' => $card->getCity(),
             'customerAddress' => $card->getAddress1(),

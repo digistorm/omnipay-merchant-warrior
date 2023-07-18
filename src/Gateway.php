@@ -3,6 +3,7 @@
 namespace Omnipay\MerchantWarrior;
 
 use Omnipay\Common\AbstractGateway;
+use Omnipay\MerchantWarrior\Message\PurchaseRequest;
 
 /**
  * MerchantWarrior Gateway
@@ -51,5 +52,16 @@ class Gateway extends AbstractGateway
     public function setApiPassphrase($value)
     {
         return $this->setParameter('ApiPassphrase', $value);
+    }
+
+    /**
+     * Purchase request
+     *
+     * @param array $parameters
+     * @return \Omnipay\MerchantWarrior\Message\PurchaseRequest|\Omnipay\Common\Message\AbstractRequest
+     */
+    public function purchase(array $parameters = array())
+    {
+        return $this->createRequest(PurchaseRequest::class, $parameters);
     }
 }

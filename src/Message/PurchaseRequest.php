@@ -26,10 +26,9 @@ class PurchaseRequest extends AbstractRequest
 
     public function getData()
     {
-        // TODO maybe need to validate more here.
         $this->validate(
             'amount',
-//            'transactionProduct',
+            'transactionProduct',
         );
 
         $data = [

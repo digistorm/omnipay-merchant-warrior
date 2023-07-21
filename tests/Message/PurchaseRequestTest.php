@@ -22,7 +22,7 @@ class PurchaseRequestTest extends TestCase
             [
                 'amount' => '10.00',
                 'currency' => 'USD',
-                'card' => $this->getValidCard(),
+                'card' => $this->getValidCard()
             ]
         );
     }
@@ -68,7 +68,7 @@ class PurchaseRequestTest extends TestCase
             'paymentCardNumber' => '4111111111111111',
             'paymentCardExpiry' => '0128',
             'paymentCardName' => 'Example User',
-            'paymentCardCSC' => 742,
+            'paymentCardCSC' => 742
         ];
 
         $this->setMockHttpResponse('ProcessCardSuccess.txt');

@@ -28,7 +28,7 @@ class PurchaseRequest extends AbstractRequest
     {
         $this->validate(
             'amount',
-            'transactionProduct',
+            'transactionProduct'
         );
 
         $data = [
@@ -42,7 +42,7 @@ class PurchaseRequest extends AbstractRequest
             'custom1' => $this->getCustom1(),
             'custom2' => $this->getCustom2(),
             'custom3' => $this->getCustom3(),
-            'hash' => $this->getTransactionHash(),
+            'hash' => $this->getTransactionHash()
         ];
 
         return array_merge($data, $this->getCardData());

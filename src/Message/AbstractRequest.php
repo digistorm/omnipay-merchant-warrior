@@ -148,7 +148,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
     {
         $headers = [
             'Content-Type' => 'application/x-www-form-urlencoded',
-            'Accept' => 'text/xml',
+            'Accept' => 'text/xml'
         ];
         $response = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, http_build_query($data));
         $content = (string) $response->getBody();
@@ -175,7 +175,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             'paymentCardNumber' => $card->getNumber(),
             'paymentCardExpiry' => $card->getExpiryDate('my'),
             'paymentCardName' => $card->getName(),
-            'paymentCardCSC' => $card->getCvv(),
+            'paymentCardCSC' => $card->getCvv()
         ];
     }
 }

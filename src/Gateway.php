@@ -20,7 +20,7 @@ class Gateway extends AbstractGateway
         return array(
             'MerchantUUID' => '',
             'ApiKey' => '',
-            'ApiPassphrase' => '',
+            'ApiPassphrase' => ''
         );
     }
 

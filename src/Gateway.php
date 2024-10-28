@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Omnipay\MerchantWarrior;
 
 use Omnipay\Common\AbstractGateway;
+use Omnipay\Common\Message\AbstractRequest;
 use Omnipay\MerchantWarrior\Message\PurchaseRequest;
 
 /**
@@ -10,58 +13,51 @@ use Omnipay\MerchantWarrior\Message\PurchaseRequest;
  */
 class Gateway extends AbstractGateway
 {
-    public function getName()
+    public function getName(): string
     {
         return 'Merchant Warrior';
     }
 
-    public function getDefaultParameters()
+    public function getDefaultParameters(): array
     {
-        return array(
-            'MerchantUUID' => '',
-            'ApiKey' => '',
-            'ApiPassphrase' => ''
-        );
+        return ['MerchantUUID' => '', 'ApiKey' => '', 'ApiPassphrase' => ''];
     }
 
-    public function getMerchantUUID()
+    public function getMerchantUUID(): string
     {
         return $this->getParameter('MerchantUUID');
     }
 
-    public function setMerchantUUID($value)
+    public function setMerchantUUID(string $value): self
     {
         return $this->setParameter('MerchantUUID', $value);
     }
 
-    public function getApiKey()
+    public function getApiKey(): string
     {
         return $this->getParameter('ApiKey');
     }
 
-    public function setApiKey($value)
+    public function setApiKey(string $value): self
     {
         return $this->setParameter('ApiKey', $value);
     }
 
-    public function getApiPassphrase()
+    public function getApiPassphrase(): string
     {
         return $this->getParameter('ApiPassphrase');
     }
 
-    public function setApiPassphrase($value)
+    public function setApiPassphrase(string $value): self
     {
         return $this->setParameter('ApiPassphrase', $value);
     }
 
     /**
      * Purchase request
-     *
-     * @param array $parameters
-     * @return \Omnipay\MerchantWarrior\Message\PurchaseRequest|\Omnipay\Common\Message\AbstractRequest
      */
-    public function purchase(array $parameters = array())
+    public function purchase(array $options = []): AbstractRequest
     {
-        return $this->createRequest(PurchaseRequest::class, $parameters);
+        return $this->createRequest(PurchaseRequest::class, $options);
     }
 }

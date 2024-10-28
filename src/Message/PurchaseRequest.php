@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Omnipay\MerchantWarrior\Message;
 
 /**
@@ -11,20 +13,17 @@ class PurchaseRequest extends AbstractRequest
     /**
      * The reference we want to store for the transaction.
      */
-    public function getTransactionProduct()
+    public function getTransactionProduct(): string
     {
         return $this->getParameter('transactionProduct');
     }
 
-    /**
-     * @param $value
-     */
-    public function setTransactionProduct($value)
+    public function setTransactionProduct(string $value): void
     {
         $this->setParameter('transactionProduct', $value);
     }
 
-    public function getData()
+    public function getData(): array
     {
         $this->validate(
             'amount',
@@ -42,22 +41,18 @@ class PurchaseRequest extends AbstractRequest
             'custom1' => $this->getCustom1(),
             'custom2' => $this->getCustom2(),
             'custom3' => $this->getCustom3(),
-            'hash' => $this->getTransactionHash()
+            'hash' => $this->getTransactionHash(),
         ];
 
         return array_merge($data, $this->getCardData());
     }
 
-    public function getHttpMethod()
+    public function getHttpMethod(): string
     {
         return 'POST';
     }
 
-    /**
-     * @param $data
-     * @return \Omnipay\MerchantWarrior\Message\PurchaseResponse
-     */
-    protected function createResponse($data)
+    protected function createResponse(mixed $data): PurchaseResponse
     {
         return new PurchaseResponse($this, $data);
     }

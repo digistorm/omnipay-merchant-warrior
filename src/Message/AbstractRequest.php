@@ -1,75 +1,62 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Omnipay\MerchantWarrior\Message;
 
+use Omnipay\Common\Exception\InvalidCreditCardException;
 use Omnipay\Common\Exception\InvalidRequestException;
+use Omnipay\Common\Message\AbstractRequest as CommonAbstractRequest;
+use Omnipay\Common\Message\ResponseInterface;
 
-abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
+abstract class AbstractRequest extends CommonAbstractRequest
 {
-    protected $liveEndpoint = 'https://api.merchantwarrior.com/post/';
-    protected $testEndpoint = 'https://base.merchantwarrior.com/post/';
+    protected const ENDPOINT_LIVE = 'https://api.merchantwarrior.com/post/';
+
+    protected const ENDPOINT_TEST = 'https://base.merchantwarrior.com/post/';
 
     /**
      * The http method for the request.
      */
-    abstract public function getHttpMethod();
+    abstract public function getHttpMethod(): ?string;
 
-    abstract protected function createResponse($data);
+    abstract protected function createResponse(mixed $data): ResponseInterface;
 
-    /**
-     * @return string
-     */
-    public function getMerchantUUID()
+    public function getMerchantUUID(): ?string
     {
         return $this->getParameter('merchantUUID');
     }
 
-    /**
-     * @param string $value
-     */
-    public function setMerchantUUID($value)
+    public function setMerchantUUID(string $value): void
     {
         $this->setParameter('merchantUUID', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getApiKey()
+    public function getApiKey(): ?string
     {
         return $this->getParameter('apiKey');
     }
 
-    /**
-     * @param string $value
-     */
-    public function setApiKey($value)
+    public function setApiKey(string $value): void
     {
         $this->setParameter('apiKey', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getApiPassphrase()
+    public function getApiPassphrase(): ?string
     {
         return $this->getParameter('apiPassphrase');
     }
 
-    /**
-     * @param string $value
-     */
-    public function setApiPassphrase($value)
+    public function setApiPassphrase(string $value): void
     {
         $this->setParameter('apiPassphrase', $value);
     }
 
     /**
      * @link https://dox.merchantwarrior.com/getting-started#hash-generation
-     * @return string
      * @throws InvalidRequestException
      */
-    public function getTransactionHash()
+    public function getTransactionHash(): string
     {
         $step1 = md5($this->getApiPassphrase()) . $this->getMerchantUUID() . $this->getAmount() . $this->getCurrency();
         $step2 = strtolower($step1);
@@ -77,80 +64,68 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return md5($step2);
     }
 
-    /**
-     * @return string
-     */
-    public function getCurrency()
+    public function getCurrency(): string
     {
-        $currency = parent::getCurrency();
-
-        return empty($currency) ? 'AUD' : $currency;
+        return $this->getParameter('currency') ?: 'AUD';
     }
 
-    /**
-     * @return string
-     */
-    public function getCustom1()
+    public function getCustom1(): ?string
     {
         return $this->getParameter('custom1');
     }
 
-    public function setCustom1($value)
+    public function setCustom1(string $value): void
     {
         $this->setParameter('custom1', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getCustom2()
+    public function getCustom2(): ?string
     {
         return $this->getParameter('custom2');
     }
 
-    public function setCustom2($value)
+    public function setCustom2(string $value): void
     {
         $this->setParameter('custom2', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getCustom3()
+    public function getCustom3(): ?string
     {
         return $this->getParameter('custom3');
     }
 
-    public function setCustom3($value)
+    public function setCustom3(string $value): void
     {
         $this->setParameter('custom3', $value);
     }
 
-    /**
-     * @return string
-     */
-    public function getEndpoint()
+    public function getEndpoint(): ?string
     {
-        return $this->getTestMode() ? $this->testEndpoint : $this->liveEndpoint;
+        return $this->getTestMode() ? self::ENDPOINT_TEST : self::ENDPOINT_LIVE;
     }
 
-    public function getStoreID()
+    public function getStoreID(): ?string
     {
         return $this->getParameter('storeID');
     }
 
-    public function setStoreID($value)
+    public function setStoreID(string $value): void
     {
         $this->setParameter('storeID', $value);
     }
 
-    public function sendData($data)
+    public function sendData(mixed $data): ResponseInterface
     {
         $headers = [
             'Content-Type' => 'application/x-www-form-urlencoded',
             'Accept' => 'text/xml'
         ];
-        $response = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, http_build_query($data));
+        $response = $this->httpClient->request(
+            $this->getHttpMethod(),
+            $this->getEndpoint(),
+            $headers,
+            http_build_query($data),
+        );
         $content = (string) $response->getBody();
         $xml = simplexml_load_string($content);
         $this->response = $this->createResponse($xml);
@@ -158,14 +133,18 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
         return $this->response;
     }
 
-    protected function getCardData()
+    /**
+     * @throws InvalidRequestException
+     * @throws InvalidCreditCardException
+     */
+    protected function getCardData(): array
     {
         $card = $this->getCard();
         $card->validate();
 
         return [
             'customerName' => $card->getName(),
-            'customerCountry' => $card->getCountry() ?? 'AU',
+            'customerCountry' => $card->getCountry() ?: 'AU',
             'customerState' => $card->getState(),
             'customerCity' => $card->getCity(),
             'customerAddress' => $card->getAddress1(),
@@ -175,7 +154,7 @@ abstract class AbstractRequest extends \Omnipay\Common\Message\AbstractRequest
             'paymentCardNumber' => $card->getNumber(),
             'paymentCardExpiry' => $card->getExpiryDate('my'),
             'paymentCardName' => $card->getName(),
-            'paymentCardCSC' => $card->getCvv()
+            'paymentCardCSC' => $card->getCvv(),
         ];
     }
 }

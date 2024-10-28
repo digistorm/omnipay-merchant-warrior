@@ -1,60 +1,50 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Omnipay\MerchantWarrior\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
+use SimpleXMLElement;
 
 /**
  * Response
  */
 class Response extends AbstractResponse
 {
-    public function __construct(RequestInterface $request, \SimpleXMLElement $data)
+    public function __construct(RequestInterface $request, SimpleXMLElement $data)
     {
-        $this->request = $request;
-        $this->data = $data;
+        parent::__construct($request, $data);
     }
 
-    /**
-     * @return string
-     */
-    public function getTransactionId()
+    public function getTransactionId(): string
     {
         return (string) $this->data->transactionID;
     }
 
-    public function getTransactionReference()
+    public function getTransactionReference(): string
     {
         return (string) $this->data->transactionReferenceID;
     }
 
-    /**
-     * @return string
-     */
-    public function getMessage()
+    public function getMessage(): string
     {
         return (string) $this->data->responseMessage;
     }
 
-    /**
-     * @return bool
-     */
-    public function isSuccessful()
+    public function isSuccessful(): bool
     {
         return (int) $this->data->responseCode === 0;
     }
 
-    public function getCode()
+    public function getCode(): ?string
     {
-        return (int) $this->data->responseCode;
+        return $this->data->responseCode;
     }
 
-    /**
-     * @return array
-     */
-    public function getData()
+    public function getData(): array
     {
-        return json_decode(json_encode($this->data), true);
+        return json_decode(json_encode($this->data) ?: '', true);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace League\MerchantWarrior\Test\Message;
 
 use Omnipay\Common\CreditCard;
@@ -8,12 +10,9 @@ use Omnipay\Tests\TestCase;
 
 class PurchaseRequestTest extends TestCase
 {
-    /**
-     * @var PurchaseRequest
-     */
-    private $request;
+    private PurchaseRequest $request;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -27,12 +26,14 @@ class PurchaseRequestTest extends TestCase
         );
     }
 
-    public function testGetData()
+    public function testGetData(): void
     {
         $card = new CreditCard($this->getValidCard());
         $card->setStartMonth(1);
         $card->setStartYear(2000);
 
+        $this->request->setMerchantUUID('12345678-1234-1234-1234-123456789012');
+        $this->request->setApiPassphrase('abc123');
         $this->request->setCard($card);
         $this->request->setTransactionProduct('abc123');
 
@@ -43,7 +44,7 @@ class PurchaseRequestTest extends TestCase
         $this->assertSame($card->getExpiryDate('my'), $data['paymentCardExpiry']);
     }
 
-    public function testSendData()
+    public function testSendData(): void
     {
         $data = [
             'method' => 'processCard',

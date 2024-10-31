@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace League\MerchantWarrior\Test;
 
 use Omnipay\MerchantWarrior\Gateway;
@@ -7,22 +9,21 @@ use Omnipay\Tests\GatewayTestCase;
 
 class GatewayTest extends GatewayTestCase
 {
+    public $options;
+
     /** @var Gateway */
     protected $gateway;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->gateway = new Gateway($this->getHttpClient(), $this->getHttpRequest());
 
-        $this->options = array(
-            'amount' => '10.00',
-            'card' => $this->getValidCard(),
-        );
+        $this->options = ['amount' => '10.00', 'card' => $this->getValidCard()];
     }
 
-    public function testAuthorize()
+    public function testAuthorize(): void
     {
         $this->markTestSkipped('Authorize is not implemented in the MerchantWarrior driver currently.');
 
